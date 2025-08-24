@@ -40,19 +40,67 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
       <div className="card">
         <h4>🎯 Ejercicio: Ver Virtual DOM en acción</h4>
-        <p>React solo actualiza los elementos que cambian, no toda la lista:</p>
-        <button onClick={agregarItem}>Agregar Item</button>
-        
-        <ul>
-          {items.map((item, index) => (
-            <li key={index}>
-              {item}
-              <button onClick={() => eliminarItem(index)} style={{marginLeft: '10px'}}>
-                Eliminar
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="ejercicio-resultado">
+          <strong>¿Qué vas a observar?</strong>
+          <ul>
+            <li><b>Al agregar un item:</b> Solo se añade el nuevo elemento, los demás no se re-renderizan</li>
+            <li><b>Al eliminar un item:</b> Solo se remueve ese elemento específico</li>
+            <li><b>Eficiencia:</b> React no recrea toda la lista, solo modifica lo necesario</li>
+            <li><b>Performance:</b> Las operaciones son rápidas incluso con muchos elementos</li>
+          </ul>
+        </div>
+
+        <div style={{margin: '1rem 0'}}>
+          <button onClick={agregarItem}>
+            ➕ Agregar Item
+          </button>
+          <p><small>Total de items: <strong>{items.length}</strong></small></p>
+        </div>
+
+        <div className="ejercicio-resultado">
+          <h5>Lista dinámica (Virtual DOM en acción):</h5>
+          {items.length === 0 ? (
+            <p style={{fontStyle: 'italic', color: '#666'}}>No hay items en la lista</p>
+          ) : (
+            <ul style={{listStyle: 'none', padding: 0}}>
+              {items.map((item, index) => (
+                <li key={index} style={{
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  padding: '0.5rem',
+                  margin: '0.5rem 0',
+                  background: '#f0f9ff',
+                  borderRadius: '8px',
+                  border: '1px solid #e0e7ff'
+                }}>
+                  <span style={{fontSize: '1.1rem'}}>
+                    📄 {item}
+                  </span>
+                  <button 
+                    onClick={() => eliminarItem(index)} 
+                    style={{
+                      background: '#ef4444',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      padding: '0.3rem 0.8rem',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    🗑️ Eliminar
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+          <p><small>💡 <strong>Experimenta:</strong> Agrega varios items y luego elimina algunos del medio. Observa cómo React solo actualiza los elementos que cambian, manteniendo el resto intacto.</small></p>
+          <p><small>🔍 <strong>Inspecciona:</strong> Usa las herramientas de desarrollador del navegador para ver cómo solo se modifican los elementos específicos en el DOM real.</small></p>
+        </div>
       </div>
     </div>
   );

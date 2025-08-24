@@ -35,14 +35,30 @@ const Props = () => {
 
       <div className="card">
         <h4>🎯 Ejercicio: Modifica la Prop</h4>
+        <div className="ejercicio-resultado">
+          <strong>¿Qué vas a observar?</strong>
+          <ul>
+            <li>Al escribir en el input, el componente hijo se actualiza automáticamente</li>
+            <li>El componente padre controla el dato, pero el hijo lo recibe y muestra</li>
+            <li>Esto demuestra el flujo unidireccional de datos en React</li>
+            <li>Las props son inmutables: el hijo no puede cambiar directamente el valor</li>
+          </ul>
+        </div>
+        
+        <label htmlFor="nombre-input">Escribe un nombre para ver cómo las props se pasan al componente hijo:</label>
         <input 
+          id="nombre-input"
           type="text" 
           value={nombre} 
           onChange={(e) => setNombre(e.target.value)}
           placeholder="Escribe un nombre"
         />
-        <h4>Resultado:</h4>
-        <EjemploProps nombre={nombre} />
+        
+        <div className="ejercicio-resultado">
+          <h4>Resultado del componente hijo:</h4>
+          <EjemploProps nombre={nombre} />
+          <p><small>💡 <strong>Observa:</strong> El componente hijo recibe "{nombre}" como prop y lo muestra sin poder modificarlo directamente.</small></p>
+        </div>
       </div>
     </div>
   );

@@ -74,9 +74,25 @@ function reducer(state = initialState, action) {
 
         <div className="card">
           <h4>🎯 Ejercicio: Estado Global con Redux Pattern</h4>
+          <div className="ejercicio-resultado">
+            <strong>¿Qué vas a observar?</strong>
+            <ul>
+              <li><b>Store centralizado:</b> Todos los componentes acceden al mismo estado global</li>
+              <li><b>Acciones (Actions):</b> Cada cambio se hace a través de acciones descriptivas</li>
+              <li><b>Reducer puro:</b> La lógica de cambios está concentrada en una función predecible</li>
+              <li><b>Comunicación entre componentes:</b> Los datos se comparten sin pasar props</li>
+              <li><b>Inmutabilidad:</b> El estado nunca se modifica directamente, siempre se crea uno nuevo</li>
+            </ul>
+          </div>
+
           <ComponenteUsuario />
           <ComponenteTareas />
           <ComponenteResumen />
+
+          <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+            <p><small>💡 <strong>Observa:</strong> Todos los componentes se actualizan automáticamente cuando el estado global cambia, sin necesidad de props o callbacks complejos.</small></p>
+            <p><small>🔍 <strong>Patrón Redux:</strong> Usuario → Acción → Reducer → Nuevo Estado → Re-render automático</small></p>
+          </div>
         </div>
       </div>
     </StoreContext.Provider>
@@ -87,14 +103,15 @@ const ComponenteUsuario = () => {
   const { state, dispatch } = useContext(StoreContext);
   
   return (
-    <div>
-      <h4>Usuario:</h4>
+    <div style={{margin: '1rem 0'}}>
+      <h4>👤 Configurar Usuario:</h4>
       <input 
         type="text" 
         value={state.usuario} 
         onChange={(e) => dispatch({ type: 'SET_USUARIO', payload: e.target.value })}
-        placeholder="Tu nombre"
+        placeholder="Escribe tu nombre"
       />
+      <p><small>Este componente envía la acción al reducer</small></p>
     </div>
   );
 };
@@ -111,29 +128,51 @@ const ComponenteTareas = () => {
   };
   
   return (
-    <div>
-      <h4>Tareas:</h4>
-      <input 
-        type="text" 
-        value={nuevaTarea} 
-        onChange={(e) => setNuevaTarea(e.target.value)}
-        placeholder="Nueva tarea"
-      />
-      <button onClick={agregarTarea}>Agregar</button>
+    <div style={{margin: '1rem 0'}}>
+      <h4>📝 Gestionar Tareas:</h4>
+      <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center', margin: '0.5rem 0'}}>
+        <input 
+          type="text" 
+          value={nuevaTarea} 
+          onChange={(e) => setNuevaTarea(e.target.value)}
+          placeholder="Nueva tarea"
+          style={{flex: 1}}
+        />
+        <button onClick={agregarTarea}>➕ Agregar</button>
+      </div>
       
-      {state.tareas.map(tarea => (
-        <div key={tarea.id} style={{ padding: '5px', margin: '5px 0' }}>
-          <span 
-            onClick={() => dispatch({ type: 'TOGGLE_TAREA', payload: tarea.id })}
-            style={{ 
-              textDecoration: tarea.completada ? 'line-through' : 'none',
+      <div style={{maxHeight: '200px', overflowY: 'auto'}}>
+        {state.tareas.length === 0 ? (
+          <p style={{fontStyle: 'italic', color: '#666'}}>No hay tareas aún. ¡Agrega una!</p>
+        ) : (
+          state.tareas.map(tarea => (
+            <div key={tarea.id} style={{ 
+              padding: '0.5rem', 
+              margin: '0.5rem 0',
+              background: tarea.completada ? '#f0f9ff' : '#fef3c7',
+              borderRadius: '8px',
+              border: `1px solid ${tarea.completada ? '#e0e7ff' : '#fbbf24'}`,
               cursor: 'pointer'
-            }}
-          >
-            {tarea.completada ? '✅' : '⏳'} {tarea.texto}
-          </span>
-        </div>
-      ))}
+            }}>
+              <span 
+                onClick={() => dispatch({ type: 'TOGGLE_TAREA', payload: tarea.id })}
+                style={{ 
+                  textDecoration: tarea.completada ? 'line-through' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                <span style={{fontSize: '1.2rem'}}>
+                  {tarea.completada ? '✅' : '⏳'}
+                </span>
+                {tarea.texto}
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+      <p><small>Haz clic en cualquier tarea para marcarla como completada/pendiente</small></p>
     </div>
   );
 };
@@ -141,12 +180,31 @@ const ComponenteTareas = () => {
 const ComponenteResumen = () => {
   const { state } = useContext(StoreContext);
   
+  const tareasCompletas = state.tareas.filter(t => t.completada).length;
+  const tareasPendientes = state.tareas.length - tareasCompletas;
+  
   return (
-    <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f9ff', borderRadius: '8px' }}>
-      <h4>Estado Global (Store):</h4>
-      <p>Usuario: {state.usuario || 'Sin nombre'}</p>
-      <p>Total de tareas: {state.tareas.length}</p>
-      <p>Completadas: {state.tareas.filter(t => t.completada).length}</p>
+    <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+      <h4>📊 Estado Global (Store):</h4>
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem'}}>
+        <div style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px'}}>
+          <strong>Usuario:</strong><br/>
+          {state.usuario || '(sin nombre)'}
+        </div>
+        <div style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px'}}>
+          <strong>Total tareas:</strong><br/>
+          {state.tareas.length}
+        </div>
+        <div style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px'}}>
+          <strong>Completadas:</strong><br/>
+          ✅ {tareasCompletas}
+        </div>
+        <div style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px'}}>
+          <strong>Pendientes:</strong><br/>
+          ⏳ {tareasPendientes}
+        </div>
+      </div>
+      <p><small>Este componente solo lee el estado, no envía acciones</small></p>
     </div>
   );
 };

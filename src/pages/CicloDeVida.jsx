@@ -14,9 +14,9 @@ const ComponenteHijo = ({ nombre }) => {
   }, [nombre]);
 
   return (
-    <div className="card">
+    <div className="card" style={{margin: '1rem 0', background: '#f0f9ff'}}>
       <h4>Componente Hijo</h4>
-      <p>Nombre: {nombre}</p>
+      <p>Nombre: <strong>{nombre}</strong></p>
       <p>Abre la consola del navegador para ver los logs del ciclo de vida</p>
     </div>
   );
@@ -61,17 +61,47 @@ const CicloDeVida = () => {
 
       <div className="card">
         <h4>🎯 Ejercicio: Ciclo de Vida</h4>
-        <input 
-          type="text" 
-          value={nombre} 
-          onChange={(e) => setNombre(e.target.value)}
-          placeholder="Cambia el nombre"
-        />
-        <button onClick={() => setMostrar(!mostrar)}>
-          {mostrar ? 'Ocultar' : 'Mostrar'} Componente
-        </button>
+        <div className="ejercicio-resultado">
+          <strong>¿Qué vas a observar?</strong>
+          <ul>
+            <li><b>Al cambiar el nombre:</b> Se ejecuta el useEffect que detecta cambios en la prop</li>
+            <li><b>Al ocultar el componente:</b> Se ejecuta la función de limpieza (cleanup)</li>
+            <li><b>Al mostrar el componente:</b> Se ejecuta el useEffect de montaje</li>
+            <li><b>En la consola:</b> Verás todos los logs del ciclo de vida en tiempo real</li>
+          </ul>
+        </div>
+
+        <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center', margin: '1rem 0'}}>
+          <div>
+            <label htmlFor="nombre-ciclo">Nombre para el componente hijo:</label>
+            <input 
+              id="nombre-ciclo"
+              type="text" 
+              value={nombre} 
+              onChange={(e) => setNombre(e.target.value)}
+              placeholder="Cambia el nombre"
+            />
+          </div>
+          
+          <button onClick={() => setMostrar(!mostrar)}>
+            {mostrar ? '👁️ Ocultar' : '👁️ Mostrar'} Componente
+          </button>
+        </div>
+
+        <div className="ejercicio-resultado">
+          <p><strong>Estado actual:</strong> El componente está {mostrar ? 'visible' : 'oculto'}</p>
+          {mostrar ? (
+            <p>✅ El componente hijo está montado y recibiendo props</p>
+          ) : (
+            <p>❌ El componente hijo está desmontado (cleanup ejecutado)</p>
+          )}
+        </div>
         
         {mostrar && <ComponenteHijo nombre={nombre} />}
+
+        <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+          <p><small>💡 <strong>Tip:</strong> Abre las herramientas de desarrollador (F12) y ve a la pestaña "Console" para ver todos los logs del ciclo de vida en acción.</small></p>
+        </div>
       </div>
     </div>
   );

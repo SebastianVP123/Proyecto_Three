@@ -52,12 +52,43 @@ const contexto = useContext(MiContexto);`}</code>
 
         <div className="card">
           <h4>🎯 Ejercicio: Hooks en Acción</h4>
-          <p>useState: {mensaje}</p>
-          <p>useEffect (timer): {tiempo} segundos</p>
+          <div className="ejercicio-resultado">
+            <strong>¿Qué vas a observar?</strong>
+            <ul>
+              <li><b>useState:</b> El mensaje cambia cuando haces clic en el botón</li>
+              <li><b>useEffect:</b> El timer se ejecuta automáticamente cada segundo desde que se montó el componente</li>
+              <li><b>useContext:</b> El componente hijo accede a datos sin recibir props directamente</li>
+              <li>Todos los hooks trabajan juntos en el mismo componente funcional</li>
+            </ul>
+          </div>
+
+          <div className="ejercicio-resultado">
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '1rem 0'}}>
+              <div>
+                <h5>📝 useState:</h5>
+                <p style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px', margin: '0.5rem 0'}}>
+                  {mensaje}
+                </p>
+              </div>
+              
+              <div>
+                <h5>⏰ useEffect (timer):</h5>
+                <p style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px', margin: '0.5rem 0', fontSize: '1.2rem', textAlign: 'center'}}>
+                  {tiempo} segundos
+                </p>
+              </div>
+            </div>
+          </div>
+
           <button onClick={() => setMensaje("¡Estado actualizado!")}>
-            Cambiar Mensaje
+            Cambiar Mensaje con useState
           </button>
+
           <ContextoEjemplo />
+
+          <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+            <p><small>💡 <strong>Observa:</strong> El timer continúa corriendo independientemente de otros cambios. Esto demuestra cómo useEffect maneja efectos secundarios de forma autónoma.</small></p>
+          </div>
         </div>
       </div>
     </MiContexto.Provider>
@@ -66,7 +97,15 @@ const contexto = useContext(MiContexto);`}</code>
 
 const ContextoEjemplo = () => {
   const valor = useContext(MiContexto);
-  return <p>useContext: {valor}</p>;
+  return (
+    <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+      <h5>🌐 useContext:</h5>
+      <p style={{padding: '0.5rem', background: '#f0f9ff', borderRadius: '8px'}}>
+        {valor}
+      </p>
+      <p><small>Este componente accedió al contexto sin recibir props</small></p>
+    </div>
+  );
 };
 
 export default Hooks;

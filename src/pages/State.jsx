@@ -36,10 +36,38 @@ const State = () => {
 
       <div className="card">
         <h4>🎯 Ejercicio: Contador Interactivo</h4>
-        <p>Contador: <strong>{contador}</strong></p>
-        <button onClick={() => setContador(contador + 1)}>Incrementar</button>
-        <button onClick={() => setContador(contador - 1)}>Decrementar</button>
-        <button onClick={() => setContador(0)}>Resetear</button>
+        <div className="ejercicio-resultado">
+          <strong>¿Qué vas a observar?</strong>
+          <ul>
+            <li>Cada clic en los botones actualiza el estado interno del componente</li>
+            <li>React re-renderiza automáticamente cuando el state cambia</li>
+            <li>El valor se mantiene entre re-renders hasta que lo modifiques</li>
+            <li>Cada componente tiene su propio state independiente</li>
+          </ul>
+        </div>
+
+        <div className="ejercicio-resultado">
+          <h4>Contador actual:</h4>
+          <p style={{fontSize: '2rem', margin: '1rem 0', textAlign: 'center'}}>
+            <strong>{contador}</strong>
+          </p>
+        </div>
+
+        <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center'}}>
+          <button onClick={() => setContador(contador + 1)}>
+            ➕ Incrementar
+          </button>
+          <button onClick={() => setContador(contador - 1)}>
+            ➖ Decrementar
+          </button>
+          <button onClick={() => setContador(0)}>
+            🔄 Resetear
+          </button>
+        </div>
+
+        <div className="ejercicio-resultado" style={{marginTop: '1rem'}}>
+          <p><small>💡 <strong>Experimenta:</strong> Intenta hacer clic rápidamente en los botones. Observa cómo React maneja todos los cambios de estado de forma eficiente.</small></p>
+        </div>
       </div>
     </div>
   );
