@@ -37,12 +37,12 @@ Three React es un proyecto diseñado como herramienta de aprendizaje que cubre l
 
 1. Clona el repositorio:
 ```bash
-git clone https://github.com/tu-usuario/three-react.git
+git clone https://github.com/SebastianVP123/Proyecto_Three.git
 ```
 
 2. Instala las dependencias:
 ```bash
-cd three-react
+cd Proyecto_Three
 npm install
 ```
 
